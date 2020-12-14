@@ -1,6 +1,5 @@
-{{/* vim: set filetype=mustache: */}}
 {{/*
-Expand the name of the chart.
+Define pulsar sql templates
 */}}
 {{- define "pulsarsql.coordinator" -}}
 {{ template "pulsar.fullname" . }}-pulsarsql-coordinator
