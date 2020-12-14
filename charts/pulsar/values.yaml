@@ -101,6 +101,8 @@ components:
   toolset: true
   # pulsar manager
   pulsar_manager: true
+  # pulsar sql
+  pulsarsql: true
 
 ## Monitoring Components
 ##
@@ -172,6 +174,10 @@ images:
     tag: v0.1.0
     pullPolicy: IfNotPresent
     hasCommand: false
+  pulsarsql:
+    repository: apachepulsar/pulsar-all
+    tag: 2.7.0
+    pullPolicy: IfNotPresent 
 
 ## TLS
 ## templates/tls-certs.yaml
@@ -966,3 +972,113 @@ pulsar_manager:
   admin:
     user: pulsar
     password: pulsar
+
+## Pulsar sql
+pulsarsql:
+  coordinator:
+    component: coordinator
+    replicaCount: 1
+    tolerations: []
+    affinity:
+      anti_affinity: true
+      # Set the anti affinity type. Valid values:
+      # requiredDuringSchedulingIgnoredDuringExecution - rules must be met for pod to be scheduled (hard) requires at least one node per replica
+      # preferredDuringSchedulingIgnoredDuringExecution - scheduler will try to enforce but not guranentee
+      type: preferredDuringSchedulingIgnoredDuringExecution
+    annotations: {}
+    gracePeriod: 10
+    ports:
+      http: 8081
+    resources:
+      requests:
+        memory: 4Gi
+        cpu: 2
+    # nodeSelector:
+      # cloud.google.com/gke-nodepool: default-pool
+    probe:
+      liveness:
+        enabled: true
+        failureThreshold: 10
+        initialDelaySeconds: 10
+        periodSeconds: 30
+      readiness:
+        enabled: true
+        failureThreshold: 10
+        initialDelaySeconds: 10
+        periodSeconds: 30
+      startup:
+        enabled: false
+        failureThreshold: 30
+        initialDelaySeconds: 10
+        periodSeconds: 30
+    config:
+      http:
+        port: 8081
+      query:
+        maxMemory: "1GB"
+        maxMemoryPerNode: "128MB"
+    jvm:
+      memory: 2G
+    log:
+      presto:
+        level: DEBUG
+  worker:
+    component: worker
+    replicaCount: 2
+    tolerations: []
+    affinity:
+      anti_affinity: true
+      # Set the anti affinity type. Valid values:
+      # requiredDuringSchedulingIgnoredDuringExecution - rules must be met for pod to be scheduled (hard) requires at least one node per replica
+      # preferredDuringSchedulingIgnoredDuringExecution - scheduler will try to enforce but not guranentee
+      type: preferredDuringSchedulingIgnoredDuringExecution
+    annotations: {}
+    gracePeriod: 10
+    ports:
+      http: 8081
+    resources:
+      requests:
+        memory: 4Gi
+        cpu: 2
+    # nodeSelector:
+      # cloud.google.com/gke-nodepool: default-pool
+    probe:
+      liveness:
+        enabled: true
+        failureThreshold: 10
+        initialDelaySeconds: 10
+        periodSeconds: 30
+      readiness:
+        enabled: true
+        failureThreshold: 10
+        initialDelaySeconds: 10
+        periodSeconds: 30
+      startup:
+        enabled: false
+        failureThreshold: 30
+        initialDelaySeconds: 10
+        periodSeconds: 30
+    config:
+      query:
+        maxMemory: "1GB"
+        maxMemoryPerNode: "128MB"
+    jvm:
+      memory: 2G
+    log:
+      presto:
+        level: DEBUG
+  node:
+    environment: production
+  catalog:
+    pulsar:
+      maxEntryReadBatchSize: "100"
+      targetNumSplits: "16"
+      maxSplitMessageQueueSize: "10000"
+      maxSplitEntryQueueSize: "1000"
+      namespaceDelimiterRewriteEnable: "true"
+      rewriteNamespaceDelimiter: "/"
+      bookkeeperThrottleValue: "0"
+      managedLedgerCacheSizeMB: "0"
+  service:
+    spec:
+      type: ClusterIP
