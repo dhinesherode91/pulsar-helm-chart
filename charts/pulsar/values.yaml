@@ -1020,7 +1020,7 @@ pulsarsql:
     jvm:
       memory: 2G
     log:
-      presto:
+      pulsarsql:
         level: DEBUG
   worker:
     component: worker
@@ -1065,7 +1065,7 @@ pulsarsql:
     jvm:
       memory: 2G
     log:
-      presto:
+      pulsarsql:
         level: DEBUG
   node:
     environment: production
