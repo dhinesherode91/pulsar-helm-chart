@@ -104,7 +104,7 @@ spec:
           {{- if .Values.pulsarsql.coordinator.probe.liveness.enabled }}
           livenessProbe:
             httpGet:
-              path: /v1/cluster
+              path: /v1/node
               port: {{ .Values.pulsarsql.coordinator.ports.http }}
             initialDelaySeconds: {{ .Values.pulsarsql.coordinator.probe.liveness.initialDelaySeconds }}
             periodSeconds: {{ .Values.pulsarsql.coordinator.probe.liveness.periodSeconds }}
@@ -113,7 +113,7 @@ spec:
           {{- if .Values.pulsarsql.coordinator.probe.readiness.enabled }}
           readinessProbe:
             httpGet:
-              path: /v1/cluster
+              path: /v1/node
               port: {{ .Values.pulsarsql.coordinator.ports.http }}
             initialDelaySeconds: {{ .Values.pulsarsql.coordinator.probe.readiness.initialDelaySeconds }}
             periodSeconds: {{ .Values.pulsarsql.coordinator.probe.readiness.periodSeconds }}
