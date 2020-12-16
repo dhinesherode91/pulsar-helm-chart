@@ -24,6 +24,10 @@ metadata:
   namespace: {{ template "pulsar.namespace" . }}
   labels:
     {{- include "pulsar.standardLabels" . | nindent 4 }}
+  annotations:
+  {{- with .Values.pulsarsql.service.annotations }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
 {{- with .Values.pulsarsql.service.spec }}
 {{ toYaml . | indent 2 }}
