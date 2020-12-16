@@ -1080,5 +1080,6 @@ pulsarsql:
       bookkeeperThrottleValue: "0"
       managedLedgerCacheSizeMB: "0"
   service:
+    annotations: {}
     spec:
       type: LoadBalancer
