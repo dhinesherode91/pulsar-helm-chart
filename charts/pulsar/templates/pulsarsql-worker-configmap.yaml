@@ -45,6 +45,7 @@ data:
     -XX:-ResizePLAB
     -XX:+ExitOnOutOfMemoryError
     -XX:+PerfDisableSharedMem
+    -Dpresto-temporarily-allow-java8=true
   config.properties: |
     #
     # Licensed to the Apache Software Foundation (ASF) under one
