@@ -44,6 +44,7 @@ data:
     -XX:-ResizePLAB
     -XX:+ExitOnOutOfMemoryError
     -XX:+PerfDisableSharedMem
+    -Dpresto-temporarily-allow-java8=true
   config.properties: |
     #
     # Licensed to the Apache Software Foundation (ASF) under one
@@ -70,7 +71,7 @@ data:
     discovery.uri=http://{{ template "pulsarsql.service" . }}:{{ .Values.pulsarsql.coordinator.ports.http }}
     query.max-memory={{ .Values.pulsarsql.coordinator.config.query.maxMemory }}
     query.max-memory-per-node={{ .Values.pulsarsql.coordinator.config.query.maxMemoryPerNode }}
-    distributed-joins-enabled=true
+    # distributed-joins-enabled=true
 {{- if gt (int .Values.pulsarsql.worker.replicaCount) 0 }}
     node-scheduler.include-coordinator=false
 {{- else }}
